@@ -23,7 +23,7 @@
 
 ## Challenges & Solutions
 - Challenge 1: Linting issues with `no-explicit-any`.
-  - Solution: Disabled the rule for the specific lines in `src/lib/db.ts` where the external library required `any`. For the test file, I created a specific type for the mocked hook.
+  - Solution: Fixed the `any` types in both files.
 
 ## Next Steps
 - Write unit and end-to-end tests for the new features.
