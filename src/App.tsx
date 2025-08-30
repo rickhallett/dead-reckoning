@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { AddIncomeModal } from './components/AddIncomeModal';
+import { PlanBar } from './components/PlanBar';
+import { usePlanStore } from './stores/planStore';
+import { Category } from './lib/types';
+
+// Mock data - replace with actual data fetching
+const mockCategories: Category[] = [
+  { category_id: '1', name: 'Rent', amount_p: 120000, frequency: 'monthly', profile_id: '1', optional: 0, step_p: 0, min_p: 0, is_active: 1, version: 1, created_at: '', updated_at: '' },
+  { category_id: '2', name: 'Groceries', amount_p: 15000, frequency: 'weekly', profile_id: '1', optional: 0, step_p: 0, min_p: 0, is_active: 1, version: 1, created_at: '', updated_at: '' },
+];
+const mockBalance = 500000;
+const mockDailyBurn = 6000;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isPlanMode, togglePlanMode } = usePlanStore();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <header className="App-header">
+        <h1>Dead Reckoning</h1>
+        <div>
+          <button onClick={() => setIsModalOpen(true)}>Add Income</button>
+          <label>
+            <input type="checkbox" checked={isPlanMode} onChange={togglePlanMode} />
+            Plan Mode
+          </label>
+        </div>
+      </header>
+      <main>
+        {/* Render your other components here */}
+      </main>
+      {isModalOpen && <AddIncomeModal onClose={() => setIsModalOpen(false)} />}
+      {isPlanMode && <PlanBar liveCategories={mockCategories} liveBalance={mockBalance} liveDailyBurn={mockDailyBurn} />}
+    </div>
+  );
 }
 
-export default App
+export default App;
